@@ -2,16 +2,17 @@ export const NavItem = [
 	{
 		name: 'Home',
 		path: '/',
-		dropdown: false,
 	},
 	{
-		name: 'Theme',
-		path: '/theme',
-		dropdown: false,
+		name: 'Search',
+		path: '/search',
 	},
 	{
-		name: 'Contact',
-		path: '/contact',
-		dropdown: false,
+		name: 'Message',
+		path: '/messages',
+	},
+	{
+		name: 'Create Chrip',
+		path: '/createChrip',
 	},
 ];

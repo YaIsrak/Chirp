@@ -25,13 +25,20 @@ export default function SignInButton() {
 						only your email and profile picture will be stored.
 					</DialogDescription>
 				</DialogHeader>
-				<div>
+				<div className='space-y-3'>
 					<Button
 						className='w-full'
 						variant='secondary'
-						onClick={() => signIn('google')}
+						onClick={() => signIn('google', { callbackUrl: '/user/edit-profile' })}
 					>
 						Sign in with google
+					</Button>
+					<Button
+						className='w-full'
+						variant='secondary'
+						onClick={() => signIn('facebook')}
+					>
+						Sign in with Facebook
 					</Button>
 				</div>
 			</DialogContent>
