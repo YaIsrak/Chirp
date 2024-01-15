@@ -4,7 +4,6 @@ import { Session } from 'next-auth';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { UserData } from '@/Type.typing';
 import { useSession } from 'next-auth/react';
 import NavItems from './NavItems';
 import SignInButton from './SignInButton';
@@ -78,11 +77,6 @@ export function NavBrand() {
 	);
 }
 
-export function UserButton({
-	session,
-}: {
-	session?: Session | null;
-	userinfo?: UserData;
-}) {
-	return <>{session ? <UserDropDown session={session} /> : <SignInButton />}</>;
+export function UserButton({ session }: { session?: Session | null }) {
+	return <>{session ? <UserDropDown /> : <SignInButton />}</>;
 }

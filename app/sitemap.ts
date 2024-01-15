@@ -4,7 +4,7 @@ import { fetchAllUser } from '@/lib/actions/user.action';
 import { NavItem } from '@/lib/constantData';
 import { MetadataRoute } from 'next';
 
-const baseUrl = process.env.baseURL
+export const baseUrl = process.env.baseURL
 	? `https://${process.env.baseURL}`
 	: 'http://localhost:3000';
 

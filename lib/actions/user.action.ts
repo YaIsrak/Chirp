@@ -71,7 +71,7 @@ export async function fetchUserByEmail(email: string) {
 export async function fetchAllUser() {
 	try {
 		ConnectToDb();
-		return User.find();
+		return await User.find();
 	} catch (error: any) {
 		throw new Error(`Failed to create Update user: ${error.message}`);
 	}

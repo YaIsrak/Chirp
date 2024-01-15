@@ -29,7 +29,7 @@ export async function CreateChrip({ text, user, email }: Params) {
 export async function fetchAllChrip() {
 	try {
 		ConnectToDb();
-		return await Chrip.find({ lean: true })
+		return await Chrip.find()
 			.sort({ createdAt: 'desc' })
 			.populate({
 				path: 'user',

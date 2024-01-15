@@ -1,20 +1,22 @@
 import { ChripType, UserData } from '@/Type.typing';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { fetchUserByEmail } from '@/lib/actions/user.action';
+import { getCurrentUser } from '@/lib/actions/fetchData';
 import { MessageCircle, Repeat, Send } from 'lucide-react';
-import { Session, getServerSession } from 'next-auth';
 import Link from 'next/link';
 import ChripMoreButton from '../functionalButton/ChripMoreButton';
 import LikeButton from '../functionalButton/LikeButton';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTrigger,
+} from '../ui/dialog';
+import UserCard from './UserCard';
 
 export default async function ChripCard({ chrip }: { chrip: ChripType }) {
-	const session: Session | null = await getServerSession(authOptions);
-	const userData: UserData = await fetchUserByEmail(
-		session?.user?.email as string
-	);
-	const currentUser: UserData = JSON.parse(JSON.stringify(userData));
+	const currentUser: UserData = await getCurrentUser();
+
 	return (
 		<div className='flex gap-2'>
 			{/* Rgiht side */}
@@ -30,13 +32,14 @@ export default async function ChripCard({ chrip }: { chrip: ChripType }) {
 				<Link href={`/user/${chrip.user.username}`}>
 					<p className='font-semibold ml-2'>{chrip.user.name}</p>
 				</Link>
-				<Link href={`/${chrip._id}`}>
+				<Link href={`post/${chrip._id}`}>
 					<p className='text-base ml-2'>{chrip.text}</p>
 				</Link>
+
 				{/* Button */}
 				<div className='flex'>
 					{currentUser && <LikeButton chrip={chrip} user={currentUser} />}
-					<Link href='/'>
+					<Link href={`post/${chrip._id}`}>
 						<Button
 							size='icon'
 							variant='ghost'
@@ -65,9 +68,22 @@ export default async function ChripCard({ chrip }: { chrip: ChripType }) {
 
 				{/* Likes and repliess */}
 				<div className='flex gap-4 ml-2'>
-					<Link href={`/${chrip._id}/likes`}>
-						<p className='text-sm text-foreground/50'>{chrip.likes.length} Likes</p>
-					</Link>
+					<Dialog>
+						<DialogTrigger className='text-sm text-foreground/50'>
+							{chrip.likes.length} Likes
+						</DialogTrigger>
+						<DialogContent>
+							<DialogHeader>Likes:</DialogHeader>
+							<div>
+								{chrip.likes.map((like) => (
+									<div key={like._id}>
+										<UserCard user={like} />
+									</div>
+								))}
+							</div>
+						</DialogContent>
+					</Dialog>
+
 					<p className='text-sm text-foreground/50'>20 Replies</p>
 				</div>
 			</div>

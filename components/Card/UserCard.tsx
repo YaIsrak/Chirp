@@ -30,7 +30,6 @@ export default function UserCard({ user }: { user: UserData }) {
 					</div>
 				</Link>
 			</div>
-			<hr />
 		</>
 	);
 }

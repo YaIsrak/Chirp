@@ -2,7 +2,7 @@
 
 import { DeleteChrip } from '@/lib/actions/chrip.action';
 import { useRouter } from 'next/navigation';
-import { toast } from '../ui/use-toast';
+import { toast } from 'sonner';
 
 export default function ChripDeleteButton({ postid }: { postid: string }) {
 	const route = useRouter();
@@ -10,18 +10,11 @@ export default function ChripDeleteButton({ postid }: { postid: string }) {
 	async function handleDelete(postid: string) {
 		await DeleteChrip(postid)
 			.then(() => {
-				toast({
-					title: 'Successfully deleted',
-					description: `Post id: ${postid}`,
-				});
 				route.refresh();
+				toast.success('Successfully deleted');
 			})
 			.catch((error) => {
-				toast({
-					title: 'There is an error',
-					description: `${error.message}`,
-					variant: 'destructive',
-				});
+				toast.error(`There is an error: ${error.message}`);
 			});
 	}
 

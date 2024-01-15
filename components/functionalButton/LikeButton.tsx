@@ -5,8 +5,8 @@ import { cn } from '@/lib/utils';
 import { Heart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { Button } from '../ui/button';
-import { toast } from '../ui/use-toast';
 
 export default function LikeButton({
 	chrip,
@@ -28,22 +28,14 @@ export default function LikeButton({
 						route.refresh();
 					})
 					.catch((error) => {
-						toast({
-							title: 'There is an error!',
-							description: error.message,
-							variant: 'destructive',
-						});
+						toast.error(`There is an error: ${error.message}`);
 					})
 			: await RemoveLike(chrip._id, user._id)
 					.then(() => {
 						route.refresh();
 					})
 					.catch((error) => {
-						toast({
-							title: 'There is an error!',
-							description: error.message,
-							variant: 'destructive',
-						});
+						toast.error(`There is an error: ${error.message}`);
 					});
 
 		liked ? setLiked(false) : setLiked(true);

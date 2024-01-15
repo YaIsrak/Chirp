@@ -1,11 +1,10 @@
 import Nav from '@/components/Layout/Nav';
 import { ThemeProvider } from '@/components/ThemeProvider';
-import { Toaster } from '@/components/ui/toaster';
+import { Toaster } from '@/components/ui/sonner';
 import { cn } from '@/lib/utils';
 import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
-import { Suspense } from 'react';
 import '../globals.css';
 
 export const fontSans = FontSans({
@@ -34,7 +33,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang='en'>
+		<html lang='en' suppressHydrationWarning>
 			<body
 				className={cn(
 					'min-h-screen bg-background font-sans antialiased',
@@ -42,11 +41,9 @@ export default function RootLayout({
 				)}
 			>
 				<ThemeProvider attribute='class' defaultTheme='dark'>
-					<Suspense fallback='...'>
-						<Nav />
-					</Suspense>
+					<Toaster position='top-center' />
+					<Nav />
 					<main>{children}</main>
-					<Toaster />
 				</ThemeProvider>
 				<Analytics />
 			</body>

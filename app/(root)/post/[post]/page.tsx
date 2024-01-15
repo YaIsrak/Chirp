@@ -1,5 +1,6 @@
 import { ChripType } from '@/Type.typing';
 import ChripCard from '@/components/Card/ChripCard';
+import CommentForm from '@/components/Form/CommentForm';
 import { fetchSingleChrip } from '@/lib/actions/chrip.action';
 
 export async function generateMetadata({
@@ -21,6 +22,13 @@ export default async function page({ params }: { params: { post: string } }) {
 	return (
 		<section className='section container-lg'>
 			<ChripCard chrip={chripData} />
+			<br />
+			<hr />
+			{/* Form */}
+			<div className='py-4'>
+				{/* TODO: Form Function */}
+				<CommentForm />
+			</div>
 		</section>
 	);
 }

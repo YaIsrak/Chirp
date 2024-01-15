@@ -1,5 +1,5 @@
 'use client';
-import { SessionType, UserData } from '@/Type.typing';
+import { UserData } from '@/Type.typing';
 import { Button } from '@/components/ui/button';
 import {
 	Form,
@@ -12,10 +12,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { UpdateUser } from '@/lib/actions/user.action';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import * as z from 'zod';
-import { toast } from '../ui/use-toast';
 
 const formSchema = z.object({
 	name: z.string().min(2).max(30),
@@ -24,19 +25,31 @@ const formSchema = z.object({
 });
 
 export default function AccoutEditForm({
-	session,
-	userInfo,
+	currentUser,
 }: {
-	session: SessionType | null;
-	userInfo: UserData;
+	currentUser: UserData;
 }) {
+	const { data: session } = useSession();
+	// const [userInfo, setUserInfo] = useState<UserData | undefined>();
+
+	// useEffect(() => {
+	// 	async function fetchData() {
+	// 		const response = await fetch(`${baseUrl}/api/users/${session?.user?.email}`);
+	// 		const data = await response.json();
+	// 		setUserInfo(data);
+	// 	}
+
+	// 	fetchData();
+	// }, []);
+
 	const route = useRouter();
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			name: userInfo.name || session?.user.name || '',
-			username: userInfo.username || '',
-			bio: userInfo.bio || '',
+			name: currentUser?.name || session?.user?.name || '',
+			username: currentUser?.username || '',
+			bio: currentUser?.bio || '',
 		},
 	});
 
@@ -44,26 +57,19 @@ export default function AccoutEditForm({
 		await UpdateUser({
 			name: values.name,
 			username: values.username,
-			image: session?.user.image as string,
+			image: session?.user?.image as string,
 			bio: values.bio,
-			email: session?.user.email as string,
+			email: session?.user?.email as string,
 		})
 			.then(() => {
-				toast({
-					title: 'Profile Updated',
-					description: `name: ${values.name} \n 
-					Username: ${values.username}`,
-				});
+				toast.success('Profile Updated');
 				route.push(`/`);
 			})
 			.catch((error) => {
-				toast({
-					title: 'There is an error',
-					description: error.message,
-					variant: 'destructive',
-				});
+				toast.error(`There is an error: ${error.message}`);
 			});
 	}
+
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-2'>
