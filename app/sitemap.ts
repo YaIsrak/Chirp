@@ -10,7 +10,7 @@ export const baseUrl = process.env.baseURL
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const UserData: UserData[] = await fetchAllUser();
-	const AllChrip: ChripType[] = await fetchAllChrip();
+	const { data } = await fetchAllChrip();
 
 	const routemap = NavItem.map((item) => ({
 		url: `${baseUrl}${item.path}`,
@@ -22,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 		lastModified: new Date().toISOString(),
 	}));
 
-	const chriprMap = AllChrip.map((chrip: ChripType) => ({
+	const chriprMap = data.map((chrip: ChripType) => ({
 		url: `${baseUrl}/${chrip._id}`,
 		lastModified: new Date().toISOString(),
 	}));

@@ -12,6 +12,11 @@ import {
 	DialogHeader,
 	DialogTrigger,
 } from '../ui/dialog';
+import {
+	HoverCard,
+	HoverCardContent,
+	HoverCardTrigger,
+} from '../ui/hover-card';
 import UserCard from './UserCard';
 
 export default async function ChripCard({ chrip }: { chrip: ChripType }) {
@@ -20,12 +25,25 @@ export default async function ChripCard({ chrip }: { chrip: ChripType }) {
 	return (
 		<div className='flex gap-2'>
 			{/* Rgiht side */}
-			<Link href={`/user/${chrip.user.username}`}>
-				<Avatar className='w-12 h-12'>
-					<AvatarImage src={chrip.user.image} />
-					<AvatarFallback>CN</AvatarFallback>
-				</Avatar>
-			</Link>
+			<HoverCard>
+				<HoverCardTrigger>
+					<Link href={`/user/${chrip.user.username}`}>
+						<Avatar className='w-12 h-12'>
+							<AvatarImage src={chrip.user.image} />
+							<AvatarFallback>CN</AvatarFallback>
+						</Avatar>
+					</Link>
+				</HoverCardTrigger>
+				<HoverCardContent className='flex gap-2 overflow-hidden'>
+					<Avatar>
+						<AvatarImage src={chrip.user.image} alt='user' />
+					</Avatar>
+					<div className='text-sm'>
+						<p>{chrip.user.name}</p>
+						<p className='text-muted-foreground'>{chrip.user.Chrips.length} Chrip</p>
+					</div>
+				</HoverCardContent>
+			</HoverCard>
 
 			{/* Content */}
 			<div className='text-sm'>

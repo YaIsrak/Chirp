@@ -17,7 +17,7 @@ export default async function page() {
 			<div className='space-y-2 '>
 				<p className='text-center text-sm font-bold'>New Chrip</p>
 				{/* Card */}
-				<div className='p-5 bg-background rounded-lg space-y-3 w-[450px]'>
+				<div className='p-5 bg-background rounded-lg space-y-3 w-full sm:w-[450px]'>
 					<div className='flex items-center gap-2'>
 						<Avatar className='w-6 h-6'>
 							<AvatarImage src={currentUser.image} />

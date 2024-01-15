@@ -1,9 +1,8 @@
 'use client';
-import { UserData } from '@/Type.typing';
+import { useCurrentUserByEmail } from '@/lib/hooks/useUser';
 import { LogOut, User } from 'lucide-react';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import ThemeButton from '../ThemeButton';
 import { Avatar, AvatarImage } from '../ui/avatar';
 import {
@@ -17,18 +16,7 @@ import {
 } from '../ui/dropdown-menu';
 
 export default function UserDropDown() {
-	const { data: session } = useSession();
-	const [userInfo, setUserInfo] = useState<UserData>();
-
-	useEffect(() => {
-		async function fetchData() {
-			await fetch(`http://localhost:3000/api/users/${session?.user?.email}`)
-				.then((res) => res.json())
-				.then((data) => setUserInfo(data));
-		}
-
-		fetchData();
-	}, []);
+	const { session, currentUser } = useCurrentUserByEmail();
 
 	return (
 		<DropdownMenu>
@@ -45,10 +33,10 @@ export default function UserDropDown() {
 				<ThemeButton />
 				<DropdownMenuSeparator />
 				<DropdownMenuGroup>
-					{userInfo && (
+					{currentUser && (
 						<DropdownMenuItem>
 							<Link
-								href={`/user/${userInfo?.username}`}
+								href={`/user/${currentUser?.username}`}
 								className='flex items-center text-foreground no-underline'
 							>
 								<User className='mr-2' />

@@ -29,7 +29,7 @@ export async function CreateChrip({ text, user, email }: Params) {
 export async function fetchAllChrip() {
 	try {
 		ConnectToDb();
-		return await Chrip.find()
+		const data = await Chrip.find()
 			.sort({ createdAt: 'desc' })
 			.populate({
 				path: 'user',
@@ -46,6 +46,8 @@ export async function fetchAllChrip() {
 				path: 'likes',
 				model: User,
 			});
+
+		return { data, revalidate: 60, caches: 'no-store' };
 	} catch (error: any) {
 		throw new Error(`Failed to create Update user: ${error.message}`);
 	}

@@ -1,7 +1,7 @@
+'use client';
 import { ChripType } from '@/Type.typing';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { MoreHorizontal } from 'lucide-react';
-import { Session, getServerSession } from 'next-auth';
+import { useSession } from 'next-auth/react';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -11,8 +11,8 @@ import {
 } from '../ui/dropdown-menu';
 import ChripDeleteButton from './ChripDeleteButton';
 
-export default async function ChripMoreButton({ chrip }: { chrip: ChripType }) {
-	const session: Session | null = await getServerSession(authOptions);
+export default function ChripMoreButton({ chrip }: { chrip: ChripType }) {
+	const { data: Session } = useSession();
 
 	return (
 		<div>
@@ -22,7 +22,7 @@ export default async function ChripMoreButton({ chrip }: { chrip: ChripType }) {
 				</DropdownMenuTrigger>
 				<DropdownMenuContent>
 					<DropdownMenuGroup className='font-semibold'>
-						{chrip.user.email === session?.user?.email && (
+						{chrip.user.email === Session?.user?.email && (
 							<DropdownMenuItem className='text-red-500'>
 								<ChripDeleteButton postid={chrip._id} />
 							</DropdownMenuItem>
