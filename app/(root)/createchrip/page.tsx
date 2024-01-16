@@ -3,6 +3,7 @@ import ChripForm from '@/components/Form/ChripForm';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getCurrentUser } from '@/lib/actions/fetchData';
 import { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
 	title: 'Create Chrip',
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 
 export default async function page() {
 	const currentUser: UserData = await getCurrentUser();
-	if (!currentUser) return null;
+	if (!currentUser) return redirect('/api/auth/signin');
 
 	return (
 		<section className='w-full h-screen flex justify-center align-middle items-center bg-foreground/10 '>

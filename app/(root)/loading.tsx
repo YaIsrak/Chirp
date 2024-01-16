@@ -1,20 +1,9 @@
-import ChripSkeleton from '@/components/Skeleton/ChripSkeleton';
+import { Loader } from 'lucide-react';
 
 export default function loading() {
 	return (
-		<section className='section container-lg'>
-			<div className='space-y-6'>
-				<ChripSkeleton />
-				<hr />
-				<ChripSkeleton />
-				<hr />
-				<ChripSkeleton />
-				<hr />
-				<ChripSkeleton />
-				<hr />
-				<ChripSkeleton />
-				<hr />
-			</div>
-		</section>
+		<div className='h-screen w-full flex justify-center items-center'>
+			<Loader className='animate-spin' />
+		</div>
 	);
 }

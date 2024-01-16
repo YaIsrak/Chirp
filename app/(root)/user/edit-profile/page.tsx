@@ -6,6 +6,7 @@ import { getCurrentUser } from '@/lib/actions/fetchData';
 import { Metadata } from 'next';
 
 import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
 	title: 'Edit Profile',
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
 export default async function page() {
 	const session: SessionType | null = await getServerSession(authOptions);
 	const currentUser: UserData = await getCurrentUser();
+	if (!currentUser) return redirect('/api/auth/signin');
 
 	return (
 		<section className='section'>
