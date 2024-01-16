@@ -3,6 +3,7 @@ import { getCurrentUser } from '@/lib/actions/fetchData';
 import { MessageCircle, Repeat, Send } from 'lucide-react';
 import Link from 'next/link';
 import ChripMoreButton from '../functionalButton/ChripMoreButton';
+import FollowButton from '../functionalButton/FollowButton';
 import LikeButton from '../functionalButton/LikeButton';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
@@ -47,10 +48,8 @@ export default async function ChripCard({ chrip }: { chrip: ChripType }) {
 							<Button variant='outline' size='sm' asChild>
 								<Link href={`/user/${chrip.user.username}`}>Profile</Link>
 							</Button>
-							{currentUser.username != chrip.user.username && (
-								<Button variant='outline' size='sm'>
-									Follow
-								</Button>
+							{currentUser && currentUser.username != chrip.user.username && (
+								<FollowButton userid={chrip.user.username} />
 							)}
 						</div>
 					</div>

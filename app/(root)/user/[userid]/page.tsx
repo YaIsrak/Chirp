@@ -1,7 +1,15 @@
 import { ChripType, SessionType, UserData } from '@/Type.typing';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import UserCard from '@/components/Card/UserCard';
+import FollowButton from '@/components/functionalButton/FollowButton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTrigger,
+} from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { fetchAllUser, fetchUser } from '@/lib/actions/user.action';
 import { getServerSession } from 'next-auth';
@@ -9,7 +17,6 @@ import Link from 'next/link';
 
 export default async function page({ params }: { params: { userid: string } }) {
 	const session: SessionType | null = await getServerSession(authOptions);
-
 	const userinfo: UserData = await fetchUser(params.userid);
 
 	if (!userinfo) {
@@ -34,9 +41,35 @@ export default async function page({ params }: { params: { userid: string } }) {
 						</Link>
 					</div>
 					<p className='text-sm md:text-base my-5'>{userinfo.bio}</p>
-					<Link href={`/follower`} className='text-sm text-foreground/50 underline'>
-						12 followers
-					</Link>
+					<div className='flex gap-2'>
+						<Dialog>
+							<DialogTrigger>
+								<p className='text-sm text-foreground/50 underline'>
+									{userinfo.followers.length} followers
+								</p>
+							</DialogTrigger>
+							<DialogContent>
+								<DialogHeader>Followers: </DialogHeader>
+								{userinfo.followers.map((follower) => (
+									<UserCard key={follower._id} user={follower} />
+								))}
+							</DialogContent>
+						</Dialog>
+						<Dialog>
+							<DialogTrigger>
+								<p className='text-sm text-foreground/50 underline'>
+									{userinfo.followers && userinfo.following.length} Following
+								</p>
+							</DialogTrigger>
+							<DialogContent>
+								<DialogHeader>Followers: </DialogHeader>
+								{userinfo.following &&
+									userinfo.following.map((follower) => (
+										<UserCard key={follower._id} user={follower} />
+									))}
+							</DialogContent>
+						</Dialog>
+					</div>
 				</div>
 
 				{userinfo.email === session?.user.email ? (
@@ -51,11 +84,9 @@ export default async function page({ params }: { params: { userid: string } }) {
 				) : (
 					<div className='my-4 flex justify-center gap-3'>
 						{/* Follow Button */}
-						<Link href={'/'} className='w-full'>
-							<Button className='w-full' variant='default'>
-								Follow
-							</Button>
-						</Link>
+
+						<FollowButton isPage userid={params.userid} />
+
 						<Link href={'/messages/xyz'} className='w-full'>
 							<Button className='w-full' variant='outline'>
 								Message

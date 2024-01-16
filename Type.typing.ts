@@ -9,6 +9,8 @@ export interface UserData {
 	username: string;
 	status: 'ban' | 'unban';
 	Chrips: ChripType[];
+	following: UserData[];
+	followers: UserData[];
 }
 
 export interface SessionType {

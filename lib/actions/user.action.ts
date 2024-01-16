@@ -46,14 +46,23 @@ export async function UpdateUser({
 export async function fetchUser(username: string) {
 	try {
 		ConnectToDb();
-		return User.findOne({ username: username }).populate({
-			path: 'Chrips',
-			model: Chrip,
-			populate: {
-				path: 'user',
+		return User.findOne({ username: username })
+			.populate({
+				path: 'Chrips',
+				model: Chrip,
+				populate: {
+					path: 'user',
+					model: User,
+				},
+			})
+			.populate({
+				path: 'followers',
 				model: User,
-			},
-		});
+			})
+			.populate({
+				path: 'following',
+				model: User,
+			});
 	} catch (error: any) {
 		throw new Error(`Failed to create Update user: ${error.message}`);
 	}
@@ -74,5 +83,33 @@ export async function fetchAllUser() {
 		return await User.find();
 	} catch (error: any) {
 		throw new Error(`Failed to create Update user: ${error.message}`);
+	}
+}
+
+export async function FollowUser(userId: string, currentUserId: string) {
+	try {
+		ConnectToDb();
+		await User.findByIdAndUpdate(userId, {
+			$push: { followers: currentUserId },
+		});
+		await User.findByIdAndUpdate(currentUserId, {
+			$push: { following: userId },
+		});
+	} catch (error: any) {
+		throw new Error(`Failed to follow this user: ${error.message}`);
+	}
+}
+
+export async function UnfollowUser(userId: string, currentUserId: string) {
+	try {
+		ConnectToDb();
+		await User.findByIdAndUpdate(userId, {
+			$pull: { followers: currentUserId },
+		});
+		await User.findByIdAndUpdate(currentUserId, {
+			$pull: { following: userId },
+		});
+	} catch (error: any) {
+		throw new Error(`Failed to follow this user: ${error.message}`);
 	}
 }

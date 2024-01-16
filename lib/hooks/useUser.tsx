@@ -19,3 +19,17 @@ export function useCurrentUserByEmail() {
 
 	return { session, currentUser };
 }
+
+export function useFetchUserByUsername(username: string) {
+	const [userInfo, setUserInfo] = useState<UserData>();
+
+	useEffect(() => {
+		async function fetchData() {
+			await fetch(`${baseUrl}/api/users/username/${username}`)
+				.then((res) => res.json())
+				.then((data) => setUserInfo(data));
+		}
+		fetchData();
+	}, []);
+	return userInfo;
+}

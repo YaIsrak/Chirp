@@ -38,7 +38,7 @@ export default function RootLayout({
 				className={cn('min-h-screen font-sans antialiased', fontSans.variable)}
 			>
 				<ThemeProvider attribute='class' defaultTheme='dark'>
-					<Toaster position='top-center' />
+					<Toaster position='top-center' closeButton />
 					<Nav />
 					<main>{children}</main>
 				</ThemeProvider>

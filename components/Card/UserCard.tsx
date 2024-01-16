@@ -1,12 +1,15 @@
 import { UserData } from '@/Type.typing';
+import { getCurrentUser } from '@/lib/actions/fetchData';
 import Link from 'next/link';
+import FollowButton from '../functionalButton/FollowButton';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
 
-export default function UserCard({ user }: { user: UserData }) {
+export default async function UserCard({ user }: { user: UserData }) {
+	const currentUser: UserData = await getCurrentUser();
 	return (
 		<>
-			<div className=''>
+			<div className='flex items-center'>
 				<Link
 					href={`/user/${user.username}`}
 					className='flex items-center gap-3 w-full'
@@ -22,13 +25,19 @@ export default function UserCard({ user }: { user: UserData }) {
 						<p className='text-base font-semibold'>{user.name}</p>
 						<p className='text-foreground/50'>{user.username}</p>
 					</div>
-
-					{/* Follow */}
-					<div className='mx-auto'></div>
-					<div>
-						<Button variant={'outline'}>Follow</Button>
-					</div>
 				</Link>
+
+				{/* Follow */}
+				<div className='mx-auto'></div>
+				<div>
+					{currentUser && currentUser._id != user._id ? (
+						<FollowButton isPage userid={user.username} />
+					) : (
+						<Button asChild>
+							<Link href={`/user/${user.username}`}>Profile</Link>
+						</Button>
+					)}
+				</div>
 			</div>
 		</>
 	);
