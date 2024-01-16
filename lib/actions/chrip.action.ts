@@ -47,7 +47,7 @@ export async function fetchAllChrip() {
 				model: User,
 			});
 
-		return { data, revalidate: 60, caches: 'no-store' };
+		return { data, revalidate: 60 };
 	} catch (error: any) {
 		throw new Error(`Failed to create Update user: ${error.message}`);
 	}

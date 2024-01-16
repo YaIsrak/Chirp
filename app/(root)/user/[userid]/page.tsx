@@ -73,8 +73,7 @@ export default async function page({ params }: { params: { userid: string } }) {
 					<TabsContent value='Chrips'>
 						<div className='space-y-6'>
 							{userinfo.Chrips.map((chrip: ChripType) => (
-								// <ChripCard key={chrip._id} chrip={chrip} />
-								<h1 key={chrip._id}>sds</h1>
+								<h1 key={chrip._id}>Heheh</h1>
 							))}
 						</div>
 					</TabsContent>

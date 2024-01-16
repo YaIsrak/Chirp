@@ -27,12 +27,10 @@ export default async function ChripCard({ chrip }: { chrip: ChripType }) {
 			{/* Rgiht side */}
 			<HoverCard>
 				<HoverCardTrigger>
-					<Link href={`/user/${chrip.user.username}`}>
-						<Avatar className='w-12 h-12'>
-							<AvatarImage src={chrip.user.image} />
-							<AvatarFallback>CN</AvatarFallback>
-						</Avatar>
-					</Link>
+					<Avatar className='w-12 h-12'>
+						<AvatarImage src={chrip.user.image} />
+						<AvatarFallback>CN</AvatarFallback>
+					</Avatar>
 				</HoverCardTrigger>
 				<HoverCardContent className='flex gap-2 overflow-hidden'>
 					<Avatar>
@@ -40,7 +38,21 @@ export default async function ChripCard({ chrip }: { chrip: ChripType }) {
 					</Avatar>
 					<div className='text-sm'>
 						<p>{chrip.user.name}</p>
-						<p className='text-muted-foreground'>{chrip.user.Chrips.length} Chrip</p>
+						<div className='flex gap-2 text-muted-foreground'>
+							<p>{chrip.user.Chrips.length} Chrip</p>
+							<p>|</p>
+							<p className=''>{chrip.user.Chrips.length} Followers</p>
+						</div>
+						<div className='mt-2 flex gap-2'>
+							<Button variant='outline' size='sm' asChild>
+								<Link href={`/user/${chrip.user.username}`}>Profile</Link>
+							</Button>
+							{currentUser.username != chrip.user.username && (
+								<Button variant='outline' size='sm'>
+									Follow
+								</Button>
+							)}
+						</div>
 					</div>
 				</HoverCardContent>
 			</HoverCard>
