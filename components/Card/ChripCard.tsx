@@ -113,7 +113,9 @@ export default async function ChripCard({ chrip }: { chrip: ChripType }) {
 						</DialogContent>
 					</Dialog>
 
-					<p className='text-sm text-foreground/50'>20 Replies</p>
+					<p className='text-sm text-foreground/50'>
+						{chrip.children.length} Replies
+					</p>
 				</div>
 			</div>
 
