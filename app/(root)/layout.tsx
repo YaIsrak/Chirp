@@ -35,7 +35,10 @@ export default function RootLayout({
 	return (
 		<html lang='en' suppressHydrationWarning>
 			<body
-				className={cn('min-h-screen font-sans antialiased', fontSans.variable)}
+				className={cn(
+					'min-h-screen font-sans bg-background text-foreground antialiased',
+					fontSans.variable
+				)}
 			>
 				<ThemeProvider attribute='class' defaultTheme='dark'>
 					<Toaster position='top-center' closeButton />

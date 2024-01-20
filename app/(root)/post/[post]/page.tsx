@@ -18,16 +18,26 @@ export async function generateMetadata({
 export default async function page({ params }: { params: { post: string } }) {
 	const data = await fetchSingleChrip(params.post);
 	const chripData: ChripType = JSON.parse(JSON.stringify(data));
+	console.log(chripData.children.length);
 
 	return (
 		<section className='section container-lg'>
 			<ChripCard chrip={chripData} />
 			<br />
 			<hr />
+
 			{/* Form */}
 			<div className='py-4'>
-				{/* TODO: Form Function */}
-				<CommentForm />
+				<CommentForm chrip={chripData} />
+			</div>
+
+			{chripData.children.length != 0 && <h3>Replies:</h3>}
+			<div className=''>
+				{chripData.children.length > 0
+					? chripData.children.map((chrip: ChripType) => (
+							<ChripCard key={chrip._id} chrip={chrip} />
+					  ))
+					: null}
 			</div>
 		</section>
 	);

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 import NavItems from './NavItems';
 import SignInButton from './SignInButton';
 import UserDropDown from './UserDropDown';
@@ -70,8 +71,9 @@ export function NavBrand() {
 	return (
 		<Link
 			href='/'
-			className='text-2xl no-underline font-semibold text-foreground'
+			className='text-2xl no-underline font-semibold text-foreground flex items-center gap-2'
 		>
+			<Image alt='Logo' src='/logo.png' width={50} height={50} />
 			<p>Chrip</p>
 		</Link>
 	);

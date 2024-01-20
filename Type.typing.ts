@@ -27,4 +27,5 @@ export type ChripType = {
 	user: UserData;
 	createdAt: string;
 	likes: UserData[];
+	children: ChripType[];
 };

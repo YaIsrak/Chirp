@@ -63,6 +63,7 @@ export async function fetchSingleChrip(id: string) {
 			})
 			.populate({
 				path: 'children',
+				model: Chrip,
 				populate: {
 					path: 'user',
 					model: User,
@@ -105,5 +106,31 @@ export async function RemoveLike(id: string, userid: string) {
 		});
 	} catch (error: any) {
 		throw new Error(`Failed to create Update user: ${error.message}`);
+	}
+}
+
+export async function addCommentToChrip(
+	chripId: string,
+	commentText: string,
+	currentUserId: string
+) {
+	try {
+		const originalChrip = await Chrip.findById(chripId);
+		if (!originalChrip) {
+			throw new Error('Chrip not found');
+		}
+
+		const commentChrip = await Chrip.create({
+			text: commentText,
+			user: currentUserId,
+		});
+		await Chrip.findByIdAndUpdate(
+			{ _id: chripId },
+			{
+				$push: { children: commentChrip._id },
+			}
+		);
+	} catch (error: any) {
+		throw new Error(`Failed to reply this chrip: ${error.message}`);
 	}
 }
