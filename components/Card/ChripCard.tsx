@@ -24,7 +24,7 @@ export default async function ChripCard({ chrip }: { chrip: ChripType }) {
 	const currentUser: UserData = await getCurrentUser();
 
 	return (
-		<div className='flex gap-2'>
+		<div className='flex gap-2 py-6'>
 			{/* Rgiht side */}
 			<HoverCard>
 				<HoverCardTrigger>

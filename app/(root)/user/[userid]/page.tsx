@@ -1,4 +1,4 @@
-import { ChripType, SessionType, UserData } from '@/Type.typing';
+import { SessionType, UserData } from '@/Type.typing';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import UserCard from '@/components/Card/UserCard';
 import FollowButton from '@/components/functionalButton/FollowButton';
@@ -14,6 +14,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { fetchAllUser, fetchUser } from '@/lib/actions/user.action';
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
+import UserChrip from './UserChrip';
+import UserChripReplay from './UserChripReplay';
 
 export default async function page({ params }: { params: { userid: string } }) {
 	const session: SessionType | null = await getServerSession(authOptions);
@@ -99,16 +101,16 @@ export default async function page({ params }: { params: { userid: string } }) {
 				<Tabs defaultValue='Chrips' className='mt-5'>
 					<TabsList className='w-full grid grid-cols-2'>
 						<TabsTrigger value='Chrips'>Chrips</TabsTrigger>
-						<TabsTrigger value='Repiles'>Replies</TabsTrigger>
+						<TabsTrigger value='Replies'>Replies</TabsTrigger>
 					</TabsList>
 					<TabsContent value='Chrips'>
 						<div className='space-y-6'>
-							{userinfo.Chrips.map((chrip: ChripType) => (
-								<h1 key={chrip._id}>Heheh</h1>
-							))}
+							<UserChrip username={params.userid} />
 						</div>
 					</TabsContent>
-					<TabsContent value='Replies'>Change your password here.</TabsContent>
+					<TabsContent value='Replies'>
+						<UserChripReplay />
+					</TabsContent>
 				</Tabs>
 			</div>
 		</section>

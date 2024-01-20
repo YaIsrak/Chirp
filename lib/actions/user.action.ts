@@ -43,18 +43,18 @@ export async function UpdateUser({
 	}
 }
 
-export async function fetchUser(username: string) {
+export async function fetchUser(username: string, withChrip?: boolean) {
 	try {
 		ConnectToDb();
-		return User.findOne({ username: username })
-			.populate({
-				path: 'Chrips',
-				model: Chrip,
-				populate: {
-					path: 'user',
-					model: User,
-				},
-			})
+		let query = User.findOne({ username: username })
+			// .populate({
+			// 	path: 'Chrips',
+			// 	model: Chrip,
+			// 	populate: {
+			// 		path: 'user',
+			// 		model: User,
+			// 	},
+			// })
 			.populate({
 				path: 'followers',
 				model: User,
@@ -63,6 +63,18 @@ export async function fetchUser(username: string) {
 				path: 'following',
 				model: User,
 			});
+
+		if (withChrip) {
+			query.populate({
+				path: 'Chrips',
+				model: Chrip,
+				populate: {
+					path: 'user',
+					model: User,
+				},
+			});
+		}
+		return query;
 	} catch (error: any) {
 		throw new Error(`Failed to create Update user: ${error.message}`);
 	}

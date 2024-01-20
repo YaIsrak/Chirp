@@ -12,7 +12,7 @@ export default async function Home() {
 	return (
 		<section className='section'>
 			<div className='container-lg'>
-				<div className='space-y-6'>
+				<div className=''>
 					{ChripData.map((chrip: ChripType) => (
 						<>
 							<ChripCard key={chrip._id} chrip={chrip} />
