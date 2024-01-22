@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 
 export default async function page() {
 	const currentUser: UserData = await getCurrentUser();
+
 	if (!currentUser) return redirect('/api/auth/signin');
 
 	return (
@@ -28,7 +29,7 @@ export default async function page() {
 					</div>
 
 					{/* Form */}
-					<ChripForm userInfo={currentUser} />
+					{currentUser && <ChripForm userInfo={currentUser} />}
 				</div>
 			</div>
 		</section>

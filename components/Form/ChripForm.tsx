@@ -29,19 +29,20 @@ export default function ChripForm({ userInfo }: { userInfo: UserData }) {
 	});
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
-		await CreateChrip({
-			text: values.chrip,
-			user: userInfo._id,
-			email: userInfo.email,
-		})
-			.then(() => {
-				toast.success('Chrip posted');
-				route.push('/');
-				route.refresh();
+		userInfo &&
+			(await CreateChrip({
+				text: values.chrip,
+				user: userInfo._id,
+				email: userInfo.email,
 			})
-			.catch((error: any) => {
-				toast.error(`There is an error: ${error.message}`);
-			});
+				.then(() => {
+					toast.success('Chrip posted');
+					route.push('/');
+					route.refresh();
+				})
+				.catch((error: any) => {
+					toast.error(`There is an error: ${error.message}`);
+				}));
 	};
 	return (
 		<Form {...form}>

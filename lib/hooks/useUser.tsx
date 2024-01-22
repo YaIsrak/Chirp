@@ -15,7 +15,7 @@ export function useCurrentUserByEmail() {
 		}
 
 		fetchData();
-	}, []);
+	}, [session]);
 
 	return { session, currentUser };
 }

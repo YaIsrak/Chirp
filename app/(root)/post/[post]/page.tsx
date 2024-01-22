@@ -18,7 +18,6 @@ export async function generateMetadata({
 export default async function page({ params }: { params: { post: string } }) {
 	const data = await fetchSingleChrip(params.post);
 	const chripData: ChripType = JSON.parse(JSON.stringify(data));
-	console.log(chripData.children.length);
 
 	return (
 		<section className='section container-lg'>

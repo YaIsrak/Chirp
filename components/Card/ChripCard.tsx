@@ -2,6 +2,7 @@ import { ChripType, UserData } from '@/Type.typing';
 import { getCurrentUser } from '@/lib/actions/fetchData';
 import { MessageCircle, Repeat, Send } from 'lucide-react';
 import Link from 'next/link';
+import { format } from 'timeago.js';
 import ChripMoreButton from '../functionalButton/ChripMoreButton';
 import FollowButton from '../functionalButton/FollowButton';
 import LikeButton from '../functionalButton/LikeButton';
@@ -20,7 +21,7 @@ import {
 } from '../ui/hover-card';
 import UserCard from './UserCard';
 
-export default async function ChripCard({ chrip }: { chrip: ChripType }) {
+async function ChripCard({ chrip }: { chrip: ChripType }) {
 	const currentUser: UserData = await getCurrentUser();
 
 	return (
@@ -98,7 +99,7 @@ export default async function ChripCard({ chrip }: { chrip: ChripType }) {
 				{/* Likes and repliess */}
 				<div className='flex gap-4 ml-2'>
 					<Dialog>
-						<DialogTrigger className='text-sm text-foreground/50'>
+						<DialogTrigger className='text-sm text-muted-foreground'>
 							{chrip.likes.length} Likes
 						</DialogTrigger>
 						<DialogContent>
@@ -113,9 +114,12 @@ export default async function ChripCard({ chrip }: { chrip: ChripType }) {
 						</DialogContent>
 					</Dialog>
 
-					<p className='text-sm text-foreground/50'>
+					<p className='text-sm text-muted-foreground'>
 						{chrip.children.length} Replies
 					</p>
+					<div className='text-sm text-muted-foreground'>
+						{format(chrip.createdAt)}
+					</div>
 				</div>
 			</div>
 
@@ -125,3 +129,5 @@ export default async function ChripCard({ chrip }: { chrip: ChripType }) {
 		</div>
 	);
 }
+
+export default ChripCard;

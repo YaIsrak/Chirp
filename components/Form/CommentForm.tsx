@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { addCommentToChrip } from '@/lib/actions/chrip.action';
 import { useCurrentUserByEmail } from '@/lib/hooks/useUser';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
@@ -22,6 +23,7 @@ const formSchema = z.object({
 });
 
 export default function CommentForm({ chrip }: { chrip: ChripType }) {
+	const router = useRouter();
 	const { currentUser, session } = useCurrentUserByEmail();
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -31,14 +33,16 @@ export default function CommentForm({ chrip }: { chrip: ChripType }) {
 	});
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
-		await addCommentToChrip(chrip._id, values.chrip, currentUser?._id as string)
-			.then(() => {
-				toast.success('Chrip posted');
-				form.reset();
-			})
-			.catch((error: any) => {
-				toast.error(`There is an error: ${error.message}`);
-			});
+		currentUser &&
+			(await addCommentToChrip(chrip._id, values.chrip, currentUser?._id as string)
+				.then(() => {
+					toast.success('Chrip posted');
+					form.reset();
+					router.refresh();
+				})
+				.catch((error: any) => {
+					toast.error(`There is an error: ${error.message}`);
+				}));
 	};
 
 	if (!session?.user) {
