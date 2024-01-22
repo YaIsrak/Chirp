@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 const chripSchema = new mongoose.Schema({
 	text: { type: String, require: true },
+	image: { type: String },
 	user: {
 		require: true,
 		type: mongoose.Schema.Types.ObjectId,
