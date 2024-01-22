@@ -12,16 +12,19 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 export default function ThemeButton() {
-	const { setTheme } = useTheme();
+	const { setTheme, theme } = useTheme();
+	console.log(theme);
 
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<Button variant='outline' className='space-x-2'>
-					<Sun className='h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
-					<p className='scale-100 transition-all dark:scale-0'>Light</p>
-					<Moon className='absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100' />
-					<p className='scale-0 transition-all  dark:scale-100'>Dark</p>
+					{theme === 'light' ? (
+						<Sun className='h-[1.2rem] w-[1.2rem] ' />
+					) : (
+						<Moon className='h-[1.2rem] w-[1.2rem]' />
+					)}
+					<p className='transition-all '>{theme}</p>
 					<span className='sr-only'>Toggle theme</span>
 				</Button>
 			</DropdownMenuTrigger>

@@ -25,7 +25,7 @@ export default function UserDropDown() {
 					<AvatarImage src={session?.user?.image || ''} />
 				</Avatar>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent>
+			<DropdownMenuContent align='end'>
 				<DropdownMenuLabel>{session?.user?.name}</DropdownMenuLabel>
 				<DropdownMenuLabel className='font-medium text-foreground/50'>
 					{session?.user?.email}
