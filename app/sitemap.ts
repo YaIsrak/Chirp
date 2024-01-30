@@ -2,11 +2,8 @@ import { ChripType, UserData } from '@/Type.typing';
 import { fetchAllChrip } from '@/lib/actions/chrip.action';
 import { fetchAllUser } from '@/lib/actions/user.action';
 import { NavItem } from '@/lib/constantData';
+import { baseUrl } from '@/lib/utils';
 import { MetadataRoute } from 'next';
-
-export const baseUrl = process.env.baseURL
-	? `https://${process.env.baseURL}`
-	: 'http://localhost:3000';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const UserData: UserData[] = await fetchAllUser();

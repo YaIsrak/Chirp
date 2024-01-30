@@ -5,6 +5,10 @@ export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
 
+export const baseUrl = process.env.baseURL
+	? `https://${process.env.baseURL}`
+	: 'http://localhost:3000';
+
 export function generateString(length: number) {
 	const characters =
 		'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

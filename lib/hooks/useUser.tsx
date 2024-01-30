@@ -1,7 +1,7 @@
 import { UserData } from '@/Type.typing';
-import { baseUrl } from '@/app/sitemap';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
+import { baseUrl } from '../utils';
 
 export function useCurrentUserByEmail() {
 	const { data: session } = useSession();

@@ -1,9 +1,9 @@
 import { ChripType } from '@/Type.typing';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import ChripCard from '@/components/Card/ChripCard';
 import Empty from '@/components/Empty';
 import { fetchAllChrip } from '@/lib/actions/chrip.action';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../api/auth/[...nextauth]/route';
 
 export default async function Home() {
 	const { data } = await fetchAllChrip();

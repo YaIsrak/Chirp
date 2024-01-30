@@ -1,6 +1,7 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { baseUrl } from '@/app/sitemap';
+
 import { Session, getServerSession } from 'next-auth';
+import { baseUrl } from '../utils';
 
 export async function getCurrentUser() {
 	const session: Session | null = await getServerSession(authOptions);
