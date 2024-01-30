@@ -12,6 +12,33 @@ export const authOptions: NextAuthOptions = {
 		strategy: 'jwt',
 	},
 	secret: process.env.NEXTAUTH_SECRET,
+	// callbacks: {
+	// 	async jwt({ token, user }) {
+	// 		if (user) {
+	// 			token.user = {
+	// 				_id: user.id,
+	// 				email: user.email,
+	// 				name: user.name,
+	// 				image: user.image,
+	// 			};
+	// 		}
+	// 		return token;
+	// 	},
+	// 	session: async ({ session, token }: any) => {
+	// 		if (token) {
+	// 			session.user = token.user;
+	// 		}
+	// 		return session;
+	// 	},
+	// },
+	callbacks: {
+		async jwt({ token, user }) {
+			if (token || user) {
+				token.userRole = 'admin';
+			}
+			return { ...token };
+		},
+	},
 };
 
 const handler = NextAuth(authOptions);

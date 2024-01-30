@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { addCommentToChrip } from '@/lib/actions/chrip.action';
 import { useCurrentUserByEmail } from '@/lib/hooks/useUser';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -46,7 +47,12 @@ export default function CommentForm({ chrip }: { chrip: ChripType }) {
 	};
 
 	if (!session?.user) {
-		return <div>Login to reply</div>;
+		return (
+			<div className='flex flex-col gap-2 text-center'>
+				Login to reply
+				<Button onClick={() => signIn('google')}>Login</Button>
+			</div>
+		);
 	}
 
 	return (
