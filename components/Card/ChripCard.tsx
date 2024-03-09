@@ -1,10 +1,10 @@
 import { ChripType, UserData } from '@/Type.typing';
 import { getCurrentUser } from '@/lib/actions/fetchData';
-import { MessageCircle, Repeat, Send } from 'lucide-react';
+import { MessageCircle, Repeat } from 'lucide-react';
 import Link from 'next/link';
+import { IoHeart } from 'react-icons/io5';
 import { format } from 'timeago.js';
 import ChripMoreButton from '../functionalButton/ChripMoreButton';
-import FollowButton from '../functionalButton/FollowButton';
 import LikeButton from '../functionalButton/LikeButton';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
@@ -14,92 +14,42 @@ import {
 	DialogHeader,
 	DialogTrigger,
 } from '../ui/dialog';
-import {
-	HoverCard,
-	HoverCardContent,
-	HoverCardTrigger,
-} from '../ui/hover-card';
 import UserCard from './UserCard';
 
 async function ChripCard({ chrip }: { chrip: ChripType }) {
 	const currentUser: UserData = await getCurrentUser();
 
 	return (
-		<div className='flex gap-2 py-6'>
+		<div className='flex gap-2 py-6 bg-foreground/5 p-4 rounded-xl'>
 			{/* Rgiht side */}
-			<HoverCard>
-				<HoverCardTrigger>
-					<Avatar className='w-12 h-12'>
-						<AvatarImage src={chrip.user.image} />
-						<AvatarFallback>CN</AvatarFallback>
-					</Avatar>
-				</HoverCardTrigger>
-				<HoverCardContent className='flex gap-2 overflow-hidden'>
-					<Avatar>
-						<AvatarImage src={chrip.user.image} alt='user' />
-					</Avatar>
-					<div className='text-sm'>
-						<p>{chrip.user.name}</p>
-						<div className='flex gap-2 text-muted-foreground'>
-							<p>{chrip.user.Chrips.length} Chrip</p>
-							<p>|</p>
-							<p className=''>{chrip.user.Chrips.length} Followers</p>
-						</div>
-						<div className='mt-2 flex gap-2'>
-							<Button variant='outline' size='sm' asChild>
-								<Link href={`/user/${chrip.user.username}`}>Profile</Link>
-							</Button>
-							{currentUser && currentUser.username != chrip.user.username && (
-								<FollowButton userid={chrip.user.username} />
-							)}
-						</div>
-					</div>
-				</HoverCardContent>
-			</HoverCard>
+
+			<Avatar className='w-12 h-12'>
+				<AvatarImage src={chrip.user.image} />
+				<AvatarFallback>CN</AvatarFallback>
+			</Avatar>
 
 			{/* Content */}
-			<div className='text-sm'>
-				<Link href={`/user/${chrip.user.username}`}>
-					<p className='font-semibold ml-2'>{chrip.user.name}</p>
+			<div className='text-sm flex flex-col gap-2 w-full'>
+				<Link
+					href={`/user/${chrip.user.username}`}
+					className='flex gap-2 items-center'
+				>
+					<p className='font-semibold text-base ml-2'>{chrip.user.name}</p>
+					<p className='text-muted-foreground'>@{chrip.user.username}</p>
 				</Link>
+				<div className='text-xs text-muted-foreground ml-2'>
+					{format(chrip.createdAt)}
+				</div>
+
 				<Link href={`post/${chrip._id}`}>
 					<p className='text-base ml-2'>{chrip.text}</p>
 				</Link>
 
-				{/* Button */}
-				<div className='flex'>
-					{currentUser && <LikeButton chrip={chrip} user={currentUser} />}
-					<Link href={`post/${chrip._id}`}>
-						<Button
-							size='icon'
-							variant='ghost'
-							className='rounded-full scale-100 hover:scale-95 transition-all'
-						>
-							<MessageCircle />
-						</Button>
-					</Link>
-					<Link href='/'>
-						<Button
-							size='icon'
-							variant='ghost'
-							className='rounded-full scale-100 hover:scale-95 transition-all'
-						>
-							<Repeat />
-						</Button>
-					</Link>
-					<Button
-						size='icon'
-						variant='ghost'
-						className='rounded-full scale-100 hover:scale-95 transition-all'
-					>
-						<Send />
-					</Button>
-				</div>
-
 				{/* Likes and repliess */}
 				<div className='flex gap-4 ml-2'>
 					<Dialog>
-						<DialogTrigger className='text-sm text-muted-foreground'>
+						<DialogTrigger className='text-sm text-muted-foreground flex gap-1 items-center'>
+							<IoHeart className='h-4 w-4' />
 							{chrip.likes.length} Likes
 						</DialogTrigger>
 						<DialogContent>
@@ -114,12 +64,37 @@ async function ChripCard({ chrip }: { chrip: ChripType }) {
 						</DialogContent>
 					</Dialog>
 
-					<p className='text-sm text-muted-foreground'>
+					<p className='text-sm text-muted-foreground flex gap-1 items-center'>
+						<Repeat className='w-4 h-4' />
 						{chrip.children.length} Replies
 					</p>
-					<div className='text-sm text-muted-foreground'>
-						{format(chrip.createdAt)}
-					</div>
+				</div>
+
+				{/* Button */}
+				<div className='flex items-center gap-2'>
+					{currentUser && <LikeButton chrip={chrip} user={currentUser} />}
+					<Button
+						size={'sm'}
+						variant={'secondary'}
+						className='w-full gap-2 rounded-xl scale-100 hover:scale-95 transition-all bg-background'
+						asChild
+					>
+						<Link href={`post/${chrip._id}`}>
+							<MessageCircle className='w-4 h-4' />
+							<span className='hidden md:block text-xs'>Comment</span>
+						</Link>
+					</Button>
+					<Button
+						size={'sm'}
+						variant={'secondary'}
+						className='w-full gap-2 rounded-xl scale-100 hover:scale-95 transition-all bg-background'
+						asChild
+					>
+						<Link href='/'>
+							<Repeat className='w-4 h-4' />
+							<span className='hidden md:block text-xs'>Retweet</span>
+						</Link>
+					</Button>
 				</div>
 			</div>
 

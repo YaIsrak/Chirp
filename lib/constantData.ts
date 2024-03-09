@@ -1,18 +1,21 @@
-export const NavItem = [
-	{
-		name: 'Home',
-		path: '/',
-	},
+import { IconType } from 'react-icons';
+import { BiSolidMessageSquareDots } from 'react-icons/bi';
+import { GoHomeFill, GoSearch } from 'react-icons/go';
+import { HiBell } from 'react-icons/hi';
+import { IoCreate } from 'react-icons/io5';
+
+export const navItem: { name: string; href: string; icon: IconType }[] = [
+	{ name: 'Home', href: '/', icon: GoHomeFill },
 	{
 		name: 'Search',
-		path: '/search',
+		href: '/search',
+		icon: GoSearch,
 	},
 	{
-		name: 'Message',
-		path: '/messages',
+		name: 'Create Post',
+		href: '/createchrip',
+		icon: IoCreate,
 	},
-	{
-		name: 'Create Chrip',
-		path: '/createChrip',
-	},
+	{ name: 'Message', href: '/messages', icon: BiSolidMessageSquareDots },
+	{ name: 'Activities', href: '/activity', icon: HiBell },
 ];

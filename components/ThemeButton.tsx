@@ -13,7 +13,6 @@ import {
 
 export default function ThemeButton() {
 	const { setTheme, theme } = useTheme();
-	console.log(theme);
 
 	return (
 		<DropdownMenu>

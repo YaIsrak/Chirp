@@ -33,3 +33,17 @@ export function useFetchUserByUsername(username: string) {
 	}, []);
 	return userInfo;
 }
+
+export function useFetchAllUsers() {
+	const [users, setUsers] = useState<UserData[]>();
+
+	useEffect(() => {
+		async function fetchData() {
+			await fetch(`${baseUrl}/api/users`)
+				.then((res) => res.json())
+				.then((data: UserData[]) => setUsers(data));
+		}
+		fetchData();
+	}, []);
+	return users;
+}

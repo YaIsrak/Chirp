@@ -5,7 +5,7 @@ import { getCurrentUser } from '@/lib/actions/fetchData';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-	title: 'Create Chrip',
+	title: 'Create Post',
 };
 
 export default async function page() {

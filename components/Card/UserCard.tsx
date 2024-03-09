@@ -1,12 +1,13 @@
+'use client';
 import { UserData } from '@/Type.typing';
-import { getCurrentUser } from '@/lib/actions/fetchData';
+import { useCurrentUserByEmail } from '@/lib/hooks/useUser';
 import Link from 'next/link';
 import FollowButton from '../functionalButton/FollowButton';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
 
-export default async function UserCard({ user }: { user: UserData }) {
-	const currentUser: UserData = await getCurrentUser();
+export default function UserCard({ user }: { user: UserData }) {
+	const { currentUser } = useCurrentUserByEmail();
 	return (
 		<>
 			<div className='flex items-center'>

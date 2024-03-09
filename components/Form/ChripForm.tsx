@@ -8,16 +8,16 @@ import {
 	FormItem,
 	FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { CreateChrip } from '@/lib/actions/chrip.action';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
+import { Textarea } from '../ui/textarea';
 
 const formSchema = z.object({
-	chrip: z.string().min(2).max(50),
+	chrip: z.string().min(2),
 });
 export default function ChripForm({ userInfo }: { userInfo: UserData }) {
 	const route = useRouter();
@@ -53,7 +53,7 @@ export default function ChripForm({ userInfo }: { userInfo: UserData }) {
 					render={({ field }) => (
 						<FormItem>
 							<FormControl>
-								<Input placeholder='Start a chrips...' {...field} />
+								<Textarea placeholder='Whats on your mind?' {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>

@@ -2,10 +2,14 @@
 import useScroll from '@/lib/hooks/useScroll';
 import { Session } from 'next-auth';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 
+import LogoDark from '@/public/logo-dark.png';
+import LogoLight from '@/public/logo-light.png';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
+import { Separator } from '../ui/separator';
 import NavItems from './NavItems';
+import SearchForm from './SearchForm';
 import SignInButton from './SignInButton';
 import UserDropDown from './UserDropDown';
 
@@ -20,49 +24,22 @@ export default function Navbar() {
 					scrolled ? 'border-b bg-background/50 backdrop-blur-xl' : 'bg-background/0'
 				} z-30 transition-all`}
 			>
-				<div className='container flex h-16 items-center justify-between w-full'>
+				<div className='container flex h-16 items-center w-full gap-4'>
 					<NavBrand />
+					<SearchForm />
 
-					{/* Center Menu */}
-					<div className='hidden md:flex items-center gap-5'>
-						<NavItems />
-					</div>
+					<div className='mx-auto'></div>
 
 					{/* SideMenu */}
 					<div className='flex items-center gap-3'>
+						<NavItems />
+						<Separator orientation='vertical' className='h-10 bg-foreground/40' />
 						{/* user */}
-						<div className=''>
-							<UserButton session={Session} />
-						</div>
+						<UserButton session={Session} />
 					</div>
-
-					{/* Moblie menu */}
 				</div>
 			</nav>
-			<nav className='fixed bottom-0 w-full flex md:hidden justify-between border-t bg-background/50 backdrop-blur-xl z-30 transition-all'>
-				<NavItems />
-			</nav>
 		</>
-	);
-}
-
-export function NavLink({
-	path,
-	children,
-}: {
-	path: string;
-	children: React.ReactNode;
-}) {
-	const pathname = usePathname();
-	return (
-		<Link
-			href={path}
-			className={`no-underline  py-4 px-5 rounded-lg bg-foreground/0 hover:bg-foreground/10 transition
-			${pathname === path ? 'text-foreground' : 'text-foreground/40'}
-			`}
-		>
-			{children}
-		</Link>
 	);
 }
 
@@ -72,7 +49,18 @@ export function NavBrand() {
 			href='/'
 			className='text-2xl no-underline font-semibold text-foreground flex items-center gap-2'
 		>
-			<p>Chrip</p>
+			<Image
+				src={LogoLight}
+				alt='Logo'
+				width={100}
+				className='w-12 dark:block hidden'
+			/>
+			<Image
+				src={LogoDark}
+				alt='Logo'
+				width={100}
+				className='w-12 dark:hidden block'
+			/>
 		</Link>
 	);
 }

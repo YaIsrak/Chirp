@@ -1,31 +1,35 @@
+'use client';
 import { UserData } from '@/Type.typing';
 import UserCard from '@/components/Card/UserCard';
-import SearchForm from '@/components/Form/SearchForm';
-import { fetchAllUser } from '@/lib/actions/user.action';
-import { Metadata } from 'next';
+import {
+	Command,
+	CommandEmpty,
+	CommandGroup,
+	CommandInput,
+	CommandItem,
+	CommandList,
+} from '@/components/ui/command';
+import { useFetchAllUsers } from '@/lib/hooks/useUser';
 
-export const metadata: Metadata = {
-	title: 'Search',
-};
-
-export default async function Search() {
-	const users = await fetchAllUser();
-
-	if (!users) {
-		return null;
-	}
+export default function Search() {
+	const users = useFetchAllUsers();
 
 	return (
 		<section className='section'>
 			<div className='container-lg'>
-				<SearchForm />
-
-				{/* User */}
-				<div className='mt-12 space-y-4'>
-					{users.map((user: UserData) => (
-						<UserCard key={user.id} user={user} />
-					))}
-				</div>
+				<Command>
+					<CommandInput placeholder='bla bla' />
+					<CommandList>
+						<CommandEmpty>No result Found</CommandEmpty>
+						<CommandGroup>
+							{users?.map((user: UserData) => (
+								<CommandItem>
+									<UserCard key={user.id} user={user} />
+								</CommandItem>
+							))}
+						</CommandGroup>
+					</CommandList>
+				</Command>
 			</div>
 		</section>
 	);

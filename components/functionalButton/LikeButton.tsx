@@ -1,10 +1,10 @@
 'use client';
 import { ChripType, UserData } from '@/Type.typing';
 import { LikeCrip, RemoveLike } from '@/lib/actions/chrip.action';
-import { cn } from '@/lib/utils';
-import { Heart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { IoMdHeartEmpty } from 'react-icons/io';
+import { IoHeart } from 'react-icons/io5';
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
 
@@ -43,17 +43,21 @@ export default function LikeButton({
 
 	return (
 		<Button
-			size='icon'
-			variant='ghost'
-			className={cn(
-				'rounded-full scale-100 hover:scale-95 transition-all',
-				liked && 'text-red-500  hover:text-red-500'
-			)}
+			size={'sm'}
+			variant={'secondary'}
+			className='w-full gap-2 rounded-xl scale-100 hover:scale-95 transition-all bg-background'
 			onClick={() => {
 				handleLike();
 			}}
 		>
-			<Heart />
+			<div className='flex gap-2 items-center'>
+				{liked ? (
+					<IoHeart className='h-4 w-4 text-rose-500' />
+				) : (
+					<IoMdHeartEmpty className='h-4 w-4' />
+				)}
+				<span className='hidden md:block text-xs'>Like</span>
+			</div>
 		</Button>
 	);
 }
