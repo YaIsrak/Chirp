@@ -23,8 +23,8 @@ export default function Search() {
 						<CommandEmpty>No result Found</CommandEmpty>
 						<CommandGroup>
 							{users?.map((user: UserData) => (
-								<CommandItem>
-									<UserCard key={user.id} user={user} />
+								<CommandItem key={user.id}>
+									<UserCard user={user} />
 								</CommandItem>
 							))}
 						</CommandGroup>
