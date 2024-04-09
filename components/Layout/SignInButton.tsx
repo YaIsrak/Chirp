@@ -1,3 +1,4 @@
+import { signIn } from 'next-auth/react';
 import { Button } from '../ui/button';
 import {
 	Dialog,
@@ -8,13 +9,11 @@ import {
 	DialogTrigger,
 } from '../ui/dialog';
 
-import { signIn } from 'next-auth/react';
-
 export default function SignInButton() {
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
-				<Button className='bg-foreground rounded-full' size='sm'>
+				<Button className='bg-primary rounded-full' size='sm'>
 					Sign in
 				</Button>
 			</DialogTrigger>
@@ -32,13 +31,6 @@ export default function SignInButton() {
 						onClick={() => signIn('google', { callbackUrl: '/user/edit-profile' })}
 					>
 						Sign in with google
-					</Button>
-					<Button
-						className='w-full'
-						variant='secondary'
-						onClick={() => signIn('facebook')}
-					>
-						Sign in with Facebook
 					</Button>
 				</div>
 			</DialogContent>

@@ -3,13 +3,14 @@ import { useFetchAllUsers } from '@/lib/hooks/useUser';
 import { useEffect, useState } from 'react';
 import { Avatar, AvatarImage } from '../ui/avatar';
 import {
-	CommandDialog,
+	Command,
 	CommandEmpty,
 	CommandGroup,
 	CommandInput,
 	CommandItem,
 	CommandList,
 } from '../ui/command';
+import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 import { Input } from '../ui/input';
 
 export default function SearchForm() {
@@ -28,28 +29,36 @@ export default function SearchForm() {
 	}, []);
 
 	return (
-		<>
-			<Input
-				placeholder='# Search User'
-				className='bg-foreground/10 rounded-xl border-none w-96 h-10 hidden md:block'
-				onClick={() => setOpen((open) => !open)}
-			/>
-			<CommandDialog open={open} onOpenChange={setOpen}>
-				<CommandInput placeholder='Search User' />
-				<CommandList>
-					<CommandEmpty>No results found.</CommandEmpty>
-					<CommandGroup>
-						{users?.map((user) => (
-							<CommandItem key={user._id} className='gap-2'>
-								<Avatar>
-									<AvatarImage src={user.image} alt='Users' />
-								</Avatar>
-								<p>{user.name}</p>
-							</CommandItem>
-						))}
-					</CommandGroup>
-				</CommandList>
-			</CommandDialog>
-		</>
+		<Dialog>
+			<DialogTrigger>
+				<Input
+					placeholder='# Search User'
+					className='bg-foreground/10 rounded-xl border-none w-96 h-10 hidden md:block'
+					onClick={() => setOpen((open) => !open)}
+				/>
+			</DialogTrigger>
+			<DialogContent>
+				<Command>
+					<CommandInput placeholder='Search User' autoFocus={true} />
+					<CommandList>
+						<CommandEmpty>No results found.</CommandEmpty>
+						<CommandGroup>
+							{users?.map((user) => (
+								<CommandItem
+									key={user._id}
+									className='gap-2'
+									onSelect={() => setOpen(false)}
+								>
+									<Avatar>
+										<AvatarImage src={user.image} alt='Users' />
+									</Avatar>
+									<p>{user.name}</p>
+								</CommandItem>
+							))}
+						</CommandGroup>
+					</CommandList>
+				</Command>
+			</DialogContent>
+		</Dialog>
 	);
 }
